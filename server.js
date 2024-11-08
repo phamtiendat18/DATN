@@ -20,18 +20,7 @@ app.use("/role", roleRoutes);
 //     console.log(`Server running on port ${PORT}`);
 //   });
 // }).catch(err => console.log('Error syncing database:', err));
-// createAdmin()
-// app.listen(PORT, () => {
-//     console.log(`Server running on port ${PORT}`);
-// });
-async function testConnection() {
-  try {
-    await sequelize.authenticate();
-    console.log("Database connection has been established successfully.");
-  } catch (error) {
-    console.error("Unable to connect to the database:", error);
-  }
-}
-
-testConnection();
-module.exports = app;
+createAdmin();
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

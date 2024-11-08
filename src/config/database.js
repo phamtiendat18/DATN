@@ -1,14 +1,9 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST,
-    dialect: "postgres",
-  }
-);
+const sequelize = new Sequelize(process.env.POSTGRES_URL, {
+  dialect: "postgres", // Đảm bảo rằng bạn đặt đúng loại cơ sở dữ liệu
+  protocol: "postgres", // Đặt giao thức nếu cần, ví dụ 'postgres' hoặc 'mysql'
+});
 
 module.exports = sequelize;
