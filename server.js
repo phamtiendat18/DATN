@@ -14,7 +14,9 @@ app.use(express.json());
 // Định nghĩa route cho Auth
 app.use("/auth", authRoutes);
 app.use("/role", roleRoutes);
-
+app.get("/", (req, res) => {
+  return res.send("<h1>Hello world !!!</h1>");
+});
 // Kết nối cơ sở dữ liệu và khởi động server
 // sequelize.sync().then(() => {
 //   app.listen(PORT, () => {
