@@ -8,7 +8,7 @@ router.post("/a/login", login);
 router.post("/s/register", register);
 router.post("/s/login", login);
 router.get("/test", (req, res) => {
-  return res.status(200).json({ message: "test" });
+  return res.send("<h1>Hello world !!!</h1>");
 });
 
 module.exports = router;

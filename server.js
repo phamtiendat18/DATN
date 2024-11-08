@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const sequelize = require("./src/config/database");
 const authRoutes = require("./src/routes/authRoutes");
 const roleRoutes = require("./src/routes/roleRoutes");
+const createAdmin = require("./src/utils/createAdmin");
 dotenv.config();
 
 const app = express();
@@ -20,7 +21,7 @@ app.use("/role", roleRoutes);
 //     console.log(`Server running on port ${PORT}`);
 //   });
 // }).catch(err => console.log('Error syncing database:', err));
-createAdmin();
+// createAdmin();
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
