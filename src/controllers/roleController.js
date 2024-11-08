@@ -10,8 +10,20 @@ const createRole = async (req, res) => {
   }
 
   try {
-    const role = await Roles.create({ name, created_at: new Date() });
-    res.status(201).json(role);
+    const checkRoleName = await Roles.findOne({
+      where: {
+        name: name.toLowerCase(),
+      },
+    });
+    console.log(checkRoleName);
+
+    if (checkRoleName) {
+      return res
+        .status(400)
+        .json({ message: "Vai trò đã tồn tại", status: 400 });
+    }
+    const role = await Roles.create({ name });
+    return res.status(201).json({ data: role, status: 201 });
   } catch (err) {
     res.status(400).json({ error: "Error creating role" });
   }
@@ -20,8 +32,12 @@ const createRole = async (req, res) => {
 // Lấy danh sách roles
 const getRoles = async (req, res) => {
   try {
-    const roles = await Roles.findAll();
-    res.status(200).json(roles);
+    const roles = await Roles.findAll({
+      where: {
+        role_name: { [Sequelize.Op.ne]: "Admin" },
+      },
+    });
+    res.status(200).json({ data: roles, status: 200 });
   } catch (err) {
     res.status(500).json({ error: "Error retrieving roles" });
   }
