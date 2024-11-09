@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const sequelize = require("./src/config/database");
 const authRoutes = require("./src/routes/authRoutes");
 const roleRoutes = require("./src/routes/roleRoutes");
@@ -8,7 +9,7 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.SERVER_PORT || 4000;
-
+app.use(cors());
 app.use(express.json());
 
 // Định nghĩa route cho Auth
