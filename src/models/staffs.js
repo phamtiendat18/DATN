@@ -1,53 +1,62 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
-const Staffs = sequelize.define('staffs', {
-  user_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+const Staffs = sequelize.define(
+  "staffs",
+  {
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    gender: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    birthday: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    position: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    department: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    phone_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    research_work: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    work_place: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    experience: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    about_me: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
-  name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  gender: DataTypes.BOOLEAN,
-  birthday: {
-    type: DataTypes.DATE,
-    allowNull: false,
-  },
-  address: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  position: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  department: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  phone_number: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  researchWork: DataTypes.STRING,
-  work_place: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  experience: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  about_me: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  }
-},
-{
+  {
     timestamps: true, // Bật timestamps tự động của Sequelize
     underscored: true, // Sử dụng kiểu snake_case cho tên cột
-});
+  }
+);
 
 module.exports = Staffs;

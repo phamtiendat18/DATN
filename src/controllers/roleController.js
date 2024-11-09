@@ -1,3 +1,4 @@
+const { Op, where } = require("sequelize");
 const Roles = require("../models/roles");
 const Users = require("../models/users");
 
@@ -32,11 +33,15 @@ const createRole = async (req, res) => {
 // Lấy danh sách roles
 const getRoles = async (req, res) => {
   try {
+    console.log("ok");
+
     const roles = await Roles.findAll({
       where: {
-        role_name: { [Sequelize.Op.ne]: "Admin" },
+        name: { [Op.ne]: "Admin" },
       },
     });
+    console.log(roles);
+
     res.status(200).json({ data: roles, status: 200 });
   } catch (err) {
     res.status(500).json({ error: "Error retrieving roles" });
@@ -55,11 +60,17 @@ const updateRole = async (req, res) => {
   try {
     const role = await Roles.findByPk(id);
     if (!role) {
-      return res.status(404).json({ error: "Roles not found" });
+      return res.status(404).json({ error: "Không tồn tại role này!" });
     }
-    role.name = name;
-    await role.save();
-    res.status(200).json(role);
+    const newRole = await Roles.update(
+      { name: name, updated_at: new Date() },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    res.status(200).json({ data: newRole, message: "Cập nhật thành công!" });
   } catch (err) {
     res.status(400).json({ error: "Error updating role" });
   }
@@ -70,11 +81,10 @@ const deleteRole = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const role = await Roles.findByPk(id);
+    const role = await Roles.destroy({ where: { id: id } });
     if (!role) {
       return res.status(404).json({ error: "Roles not found" });
     }
-    await role.destroy();
     res.status(200).json({ message: "Roles deleted successfully" });
   } catch (err) {
     res.status(500).json({ error: "Error deleting role" });
