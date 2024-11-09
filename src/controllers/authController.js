@@ -19,9 +19,7 @@ const register = async (req, res) => {
     console.log(checkUsername);
 
     if (checkUsername) {
-      return res
-        .status(400)
-        .json({ message: "Tài khoản đã được sử dụng!", status: 400 });
+      return res.status(400).json({ message: "Tài khoản đã được sử dụng!" });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const disable = roleName.toLowerCase() === "staffs";
@@ -46,7 +44,7 @@ const register = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.status(201).json({ data: user, token, status: 201 });
+    res.status(201).json({ user, token });
   } catch (err) {
     res.status(400).json({ error: "Error registering user" });
   }
@@ -73,10 +71,6 @@ const login = async (req, res) => {
             user_id: user?.id,
           },
         });
-    if (!userInfo) {
-      console.log("oke");
-    }
-
     !userInfo && check
       ? await Staffs.create({
           user_id: user?.id,
@@ -86,32 +80,28 @@ const login = async (req, res) => {
           user_id: user?.id,
           name: user?.username,
         });
-    console.log("ok");
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({
         error: "Login failed!",
         message: "Đăng nhập thất bại",
-        status: 200,
       });
     }
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 
-    res.status(200).json({
-      data: {
-        user_id: userInfo ? userInfo?.user_id : user?.id,
-        name: userInfo ? userInfo?.name : user?.username,
-        gender: userInfo ? userInfo?.gender : true,
-        id_number: userInfo ? userInfo?.id_number : null,
-        birthday: userInfo ? userInfo?.birthday : null,
-        address: userInfo ? userInfo?.address : null,
-        phone_number: userInfo ? userInfo?.phone_number : null,
-        insurance_number: userInfo ? userInfo?.insurance_number : null,
-      },
+    res.status(201).json({
+      role: role?.dataValues?.name,
+      user_id: userInfo ? userInfo?.user_id : user?.id,
+      name: userInfo ? userInfo?.name : user?.username,
+      gender: userInfo ? userInfo?.gender : true,
+      id_number: userInfo ? userInfo?.id_number : null,
+      birthday: userInfo ? userInfo?.birthday : null,
+      address: userInfo ? userInfo?.address : null,
+      phone_number: userInfo ? userInfo?.phone_number : null,
+      insurance_number: userInfo ? userInfo?.insurance_number : null,
       token,
-      status: 200,
     });
   } catch (err) {
     res.status(500).json({ error: "Error logging in", err });
@@ -129,7 +119,17 @@ const assignAccount = async (req, res) => {
       message: disable
         ? "Mở khóa tài khoản thành công"
         : "Khóa tài khoản thành công",
-      status: 200,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Error logging in" });
+  }
+};
+
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.status(200).json({
+      message: "Đăng xuất thành công.",
     });
   } catch (err) {
     res.status(500).json({ error: "Error logging in" });

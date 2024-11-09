@@ -33,14 +33,11 @@ const createRole = async (req, res) => {
 // Lấy danh sách roles
 const getRoles = async (req, res) => {
   try {
-    console.log("ok");
-
     const roles = await Roles.findAll({
       where: {
         name: { [Op.ne]: "Admin" },
       },
     });
-    console.log(roles);
 
     res.status(200).json({ data: roles, status: 200 });
   } catch (err) {
