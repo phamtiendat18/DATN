@@ -91,7 +91,7 @@ const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.status(201).json({
+    res.status(200).json({
       role: role?.dataValues?.name,
       user_id: userInfo ? userInfo?.user_id : user?.id,
       name: userInfo ? userInfo?.name : user?.username,
@@ -136,4 +136,4 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, assignAccount };
+module.exports = { register, login, assignAccount, logout };
