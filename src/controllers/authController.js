@@ -56,9 +56,12 @@ const login = async (req, res) => {
     const user = await Users.findOne({ where: { username } });
     if (!user)
       return res.status(400).json({ message: "Tài khoản không tồn tại" });
+    if (user?.dataValues?.disable)
+      return res
+        .status(400)
+        .json({ message: "Tài khoản này hiện tại không thể sử dụng" });
     const role = await Roles.findByPk(user?.id);
     const check = role?.dataValues?.name.toLowerCase() === "statffs";
-    console.log(user?.id);
 
     const userInfo = check
       ? await Staffs.findOne({
@@ -108,23 +111,6 @@ const login = async (req, res) => {
   }
 };
 
-const assignAccount = async (req, res) => {
-  const { id, disable } = req.body;
-  try {
-    const user = await Users.update(
-      { disable: !disable },
-      { where: { id: id } }
-    );
-    res.status(200).json({
-      message: disable
-        ? "Mở khóa tài khoản thành công"
-        : "Khóa tài khoản thành công",
-    });
-  } catch (err) {
-    res.status(500).json({ error: "Error logging in" });
-  }
-};
-
 const logout = async (req, res) => {
   try {
     res.clearCookie("token");
@@ -136,4 +122,4 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, assignAccount, logout };
+module.exports = { register, login, logout };

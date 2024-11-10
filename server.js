@@ -4,6 +4,7 @@ const cors = require("cors");
 const sequelize = require("./src/config/database");
 const authRoutes = require("./src/routes/authRoutes");
 const roleRoutes = require("./src/routes/roleRoutes");
+const userRoutes = require("./src/routes/userRoutes");
 const createAdmin = require("./src/utils/createAdmin");
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 // Định nghĩa route cho Auth
 app.use("/auth", authRoutes);
 app.use("/role", roleRoutes);
+app.use("/user", userRoutes);
 app.get("/", (req, res) => {
   return res.send("<h1>Hello world !!!</h1>");
 });
