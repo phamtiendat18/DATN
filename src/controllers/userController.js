@@ -1,5 +1,6 @@
 const { Op } = require("sequelize");
 const Users = require("../models/users");
+const bcrypt = require("bcryptjs");
 
 const assignAccount = async (req, res) => {
   const { id, disable } = req.body;
@@ -49,18 +50,25 @@ const addUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const body = req.body;
-    const user = await Users.findByPk(id);
+    const user = await Users.findOne({ where: { id: id } });
+    console.log(req.body);
 
     if (!user) {
       return res.status(404).json({ error: "Không tìm thấy người dùng" });
     }
-    const { username, status, disable, roleId: role_id } = req.body;
-    const userUpdated = new Users.update(
-      { username, status, disable, role_id },
+    const { username, password, role_id, disable } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await Users.update(
+      { username, password: hashedPassword, role_id, disable },
       { where: { id: id } }
     );
-    res.status(200).json({ user, message: "Cập nhật thành công" });
+    res.status(200).json({
+      username,
+      password,
+      role_id,
+      disable,
+      message: "Cập nhật thành công",
+    });
   } catch (error) {
     res.status(500).json({ error: "Lỗi khi cập nhật thông tin người dùng" });
   }
