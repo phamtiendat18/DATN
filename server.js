@@ -6,6 +6,7 @@ const authRoutes = require("./src/routes/authRoutes");
 const roleRoutes = require("./src/routes/roleRoutes");
 const userRoutes = require("./src/routes/userRoutes");
 const patientRoutes = require("./src/routes/patientRoutes");
+const staffRoutes = require("./src/routes/staffRoutes");
 const typeAppointmentRoutes = require("./src/routes/typeAppointmentRoutes");
 const appointmentRoutes = require("./src/routes/appointmentRoutes");
 const createAdmin = require("./src/utils/createAdmin");
@@ -21,7 +22,7 @@ app.use("/auth", authRoutes);
 app.use("/role", roleRoutes);
 app.use("/user", userRoutes);
 app.use("/patient", patientRoutes);
-app.use("/staff", userRoutes);
+app.use("/staff", staffRoutes);
 app.use("/type-appointment", typeAppointmentRoutes);
 app.use("/appointment", appointmentRoutes);
 app.get("/", (req, res) => {
