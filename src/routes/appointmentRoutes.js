@@ -13,8 +13,8 @@ const router = express.Router();
 
 router.post("/create", createAppointment);
 router.get("/", getAllAppointments);
-router.get("/patient", getAppointmentByIdPatientId);
-router.get("/staff", getAppointmentByStaffId);
+router.get("/patient/:id", getAppointmentByIdPatientId);
+router.get("/staff/:id", getAppointmentByStaffId);
 router.put("/:id", updateAppointment);
 router.delete("/:id", deleteAppointment);
 

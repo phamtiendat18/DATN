@@ -45,6 +45,7 @@ const getAllAppointments = async (req, res) => {
 const getAppointmentByStaffId = async (req, res) => {
   try {
     const { id } = req.params;
+
     const appointment = await Appointment.findAll({ where: { staff_id: id } });
 
     if (!appointment) {
@@ -61,6 +62,7 @@ const getAppointmentByStaffId = async (req, res) => {
 const getAppointmentByIdPatientId = async (req, res) => {
   try {
     const { id } = req.params;
+
     const appointment = await Appointment.findAll({
       where: { patient_id: id },
     });
