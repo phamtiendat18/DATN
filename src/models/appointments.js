@@ -24,7 +24,7 @@ const Appointments = sequelize.define(
     },
     status: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false,
+      allowNull: true,
     },
     type_id: {
       type: DataTypes.INTEGER,
