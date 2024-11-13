@@ -4,11 +4,14 @@ const Users = require("../models/users");
 const Roles = require("../models/roles");
 const Staffs = require("../models/staffs");
 const Patients = require("../models/patients");
+Users.belongsTo(Roles, { foreignKey: "role_id" });
+Users.hasOne(Staffs, { foreignKey: "user_id" });
+Users.hasOne(Patients, { foreignKey: "user_id" });
 
 const register = async (req, res) => {
-  const { username, password, roleId } = req.body;
+  const { username, password, role_id } = req.body;
   try {
-    const role = await Roles.findByPk(roleId);
+    const role = await Roles.findByPk(role_id);
     const roleName = role?.dataValues?.name;
     const checkUsername =
       (await Users.findOne({
@@ -16,8 +19,6 @@ const register = async (req, res) => {
           username: username,
         },
       })) || roleName.toLowerCase() === "admin";
-    console.log(checkUsername);
-
     if (checkUsername) {
       return res.status(400).json({ message: "Tài khoản đã được sử dụng!" });
     }
@@ -26,7 +27,7 @@ const register = async (req, res) => {
     const user = await Users.create({
       username,
       password: hashedPassword,
-      role_id: roleId,
+      role_id: role_id,
       disable: disable,
     });
     console.log(disable, user?.dataValues?.id);
@@ -63,26 +64,23 @@ const login = async (req, res) => {
     const role = await Roles.findByPk(user?.role_id);
     const check = role?.dataValues?.name.toLowerCase() === "statffs";
 
-    const userInfo = check
-      ? await Staffs.findOne({
-          where: {
-            user_id: user?.id,
-          },
-        })
-      : await Patients.findOne({
-          where: {
-            user_id: user?.id,
-          },
-        });
-    !userInfo && check
-      ? await Staffs.create({
-          user_id: user?.id,
-          name: user?.username,
-        })
-      : await Patients.create({
-          user_id: user?.id,
-          name: user?.username,
-        });
+    const userInfo = await Users.findOne({
+      include: [
+        {
+          model: Roles,
+          required: false,
+          attributes: { exclude: ["id"] },
+        },
+        {
+          model: check ? Staffs : Patients,
+          required: false,
+          attributes: { exclude: ["id"] },
+        },
+      ],
+      where: {
+        username: username,
+      },
+    });
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(401).json({
@@ -94,19 +92,7 @@ const login = async (req, res) => {
       expiresIn: "7d",
     });
 
-    res.status(200).json({
-      role: role?.dataValues?.name,
-      user_id: userInfo ? userInfo?.user_id : user?.id,
-      id: userInfo ? userInfo?.id : null,
-      name: userInfo ? userInfo?.name : user?.username,
-      gender: userInfo ? userInfo?.gender : true,
-      id_number: userInfo ? userInfo?.id_number : null,
-      birthday: userInfo ? userInfo?.birthday : null,
-      address: userInfo ? userInfo?.address : null,
-      phone_number: userInfo ? userInfo?.phone_number : null,
-      insurance_number: userInfo ? userInfo?.insurance_number : null,
-      token,
-    });
+    res.status(200).json({ data: userInfo, token });
   } catch (err) {
     res.status(500).json({ error: "Error logging in", err });
   }

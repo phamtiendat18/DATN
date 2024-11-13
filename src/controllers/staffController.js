@@ -15,7 +15,8 @@ const getAllStaff = async (req, res) => {
 // Xem thông tin nhân viên
 const getStaffById = async (req, res) => {
   try {
-    const staff = await Staffs.findOne({ where: { id: req.params.id } });
+    const id = req.params.id;
+    const staff = await Staffs.findByPk(id);
     if (!staff) {
       return res.status(404).json({ message: "Không tìm thấy nhân viên" });
     }
