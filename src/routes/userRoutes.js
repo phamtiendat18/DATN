@@ -13,6 +13,6 @@ router.post("/create", addUser); // Tạo role mới
 router.get("/", getAllUser); // Lấy danh sách roles
 router.put("/:id", updateUser); // Cập nhật role
 router.delete("/:id", destroyUser); // Xóa role
-router.post("/assign", isAdmin, assignAccount); // Gán role cho user
+router.post("/assign", assignAccount); // Gán role cho user
 
 module.exports = router;

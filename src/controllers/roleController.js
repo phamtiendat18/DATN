@@ -88,32 +88,9 @@ const deleteRole = async (req, res) => {
   }
 };
 
-// Gán role cho người dùng
-const assignRole = async (req, res) => {
-  const { userId, roleId } = req.body;
-
-  try {
-    const user = await Users.findByPk(userId);
-    if (!user) {
-      return res.status(404).json({ error: "Users not found" });
-    }
-    const role = await Roles.findByPk(roleId);
-    if (!role) {
-      return res.status(404).json({ error: "Roles not found" });
-    }
-
-    user.roleId = roleId;
-    await user.save();
-    res.status(200).json({ message: "Roles assigned successfully", user });
-  } catch (err) {
-    res.status(500).json({ error: "Error assigning role" });
-  }
-};
-
 module.exports = {
   createRole,
   getRoles,
   updateRole,
   deleteRole,
-  assignRole,
 };

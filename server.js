@@ -5,6 +5,9 @@ const sequelize = require("./src/config/database");
 const authRoutes = require("./src/routes/authRoutes");
 const roleRoutes = require("./src/routes/roleRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const patientRoutes = require("./src/routes/patientRoutes");
+const typeAppointmentRoutes = require("./src/routes/typeAppointmentRoutes");
+const appointmentRoutes = require("./src/routes/appointmentRoutes");
 const createAdmin = require("./src/utils/createAdmin");
 dotenv.config();
 
@@ -17,6 +20,10 @@ app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/role", roleRoutes);
 app.use("/user", userRoutes);
+app.use("/patient", patientRoutes);
+app.use("/staff", userRoutes);
+app.use("/type-appointment", typeAppointmentRoutes);
+app.use("/appointment", appointmentRoutes);
 app.get("/", (req, res) => {
   return res.send("<h1>Hello world !!!</h1>");
 });
