@@ -3,7 +3,8 @@ const Users = require("../models/users");
 const bcrypt = require("bcryptjs");
 
 const assignAccount = async (req, res) => {
-  const { id, disable } = req.body;
+  const { disable } = req.body;
+  const { id } = req.params;
   try {
     const user = await Users.update(
       { disable: !disable },
