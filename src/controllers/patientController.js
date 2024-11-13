@@ -1,5 +1,16 @@
 const Patients = require("../models/patients");
 
+const getAllPatient = async (req, res) => {
+  try {
+    const patient = await Patients.findAll();
+    if (!patient) {
+      return res.status(404).json({ message: "Không tìm thấy bệnh nhân" });
+    }
+    res.json({ data: patient, message: "Lấy danh sách thành công" });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi hệ thống", error: error.message });
+  }
+};
 // Xem thông tin bệnh nhân
 const getPatientById = async (req, res) => {
   try {
@@ -55,4 +66,5 @@ const updatePatient = async (req, res) => {
 module.exports = {
   getPatientById,
   updatePatient,
+  getAllPatient,
 };
