@@ -15,7 +15,7 @@ const getAllStaff = async (req, res) => {
 // Xem thông tin nhân viên
 const getStaffById = async (req, res) => {
   try {
-    const staff = await Staffs.findOne({ where: { user_id: req.params.id } });
+    const staff = await Staffs.findOne({ where: { id: req.params.id } });
     if (!staff) {
       return res.status(404).json({ message: "Không tìm thấy nhân viên" });
     }
@@ -56,7 +56,7 @@ const updateStaff = async (req, res) => {
         about_me,
         updated_at: sequelize.literal("CURRENT_TIMESTAMP"),
       },
-      { where: { user_id: req.params.id } }
+      { where: { id: req.params.id } }
     );
 
     if (updatedStaff[0] === 0) {

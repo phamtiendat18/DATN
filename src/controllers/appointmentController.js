@@ -1,4 +1,5 @@
 const Appointment = require("../models/appointments");
+const Staffs = require("../models/staffs");
 
 // Tạo mới một cuộc hẹn
 const createAppointment = async (req, res) => {
@@ -14,7 +15,7 @@ const createAppointment = async (req, res) => {
       patient_id,
       scheduled_time,
       staff_id,
-      status: status || false,
+      status: status,
       type_id,
     });
 
