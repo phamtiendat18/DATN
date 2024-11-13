@@ -11,8 +11,8 @@ Users.hasOne(Patients, { foreignKey: "user_id" });
 const register = async (req, res) => {
   const { username, password, role_id } = req.body;
   try {
-    const role = await Roles.findByPk(role_id);
-    const roleName = role?.dataValues?.name;
+    const role = await Roles.findOne({ where: { id: role_id } });
+    const roleName = role?.name;
     const checkUsername =
       (await Users.findOne({
         where: {
@@ -32,7 +32,7 @@ const register = async (req, res) => {
     });
     console.log(disable, user?.dataValues?.id);
 
-    disable
+    const data = disable
       ? await Staffs.create({
           user_id: user?.dataValues?.id,
           name: user?.dataValues?.username,
@@ -45,7 +45,7 @@ const register = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.status(201).json({ user, token });
+    res.status(201).json({ data, token });
   } catch (err) {
     res.status(400).json({ error: "Error registering user" });
   }
@@ -54,15 +54,19 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await Users.findOne({ where: { username } });
+    const user = await Users.findOne({ where: { username: username } });
+
     if (!user)
       return res.status(400).json({ message: "Tài khoản không tồn tại" });
     if (user?.dataValues?.disable)
       return res
         .status(400)
         .json({ message: "Tài khoản này hiện tại không thể sử dụng" });
-    const role = await Roles.findByPk(user?.role_id);
-    const check = role?.dataValues?.name.toLowerCase() === "statffs";
+    const role = await Roles.findOne({
+      where: { id: user?.dataValues?.role_id },
+    });
+    const check = role?.dataValues?.name.toLowerCase().trim() === "staffs";
+    console.log(check);
 
     const userInfo = await Users.findOne({
       include: [
