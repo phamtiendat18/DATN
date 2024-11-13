@@ -74,7 +74,6 @@ const login = async (req, res) => {
         {
           model: check ? Staffs : Patients,
           required: false,
-          attributes: { exclude: ["id"] },
         },
       ],
       where: {
