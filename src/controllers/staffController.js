@@ -1,6 +1,18 @@
 const Staffs = require("../models/staffs");
 
 // Xem thông tin nhân viên
+const getAllStaff = async (req, res) => {
+  try {
+    const staff = await Staffs.findAll();
+    if (!staff) {
+      return res.status(404).json({ message: "Không tìm thấy nhân viên" });
+    }
+    res.json({ data: staff, message: "Lấy danh sách thành công" });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi hệ thống", error: error.message });
+  }
+};
+// Xem thông tin nhân viên
 const getStaffById = async (req, res) => {
   try {
     const staff = await Staffs.findOne({ where: { user_id: req.params.id } });
@@ -61,4 +73,5 @@ const updateStaff = async (req, res) => {
 module.exports = {
   getStaffById,
   updateStaff,
+  getAllStaff,
 };
