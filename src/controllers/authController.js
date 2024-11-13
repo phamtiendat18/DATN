@@ -97,6 +97,7 @@ const login = async (req, res) => {
     res.status(200).json({
       role: role?.dataValues?.name,
       user_id: userInfo ? userInfo?.user_id : user?.id,
+      patient_id: userInfo ? userInfo?.id : null,
       name: userInfo ? userInfo?.name : user?.username,
       gender: userInfo ? userInfo?.gender : true,
       id_number: userInfo ? userInfo?.id_number : null,
