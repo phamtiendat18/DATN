@@ -60,7 +60,7 @@ const login = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Tài khoản này hiện tại không thể sử dụng" });
-    const role = await Roles.findByPk(user?.id);
+    const role = await Roles.findByPk(user?.role_id);
     const check = role?.dataValues?.name.toLowerCase() === "statffs";
 
     const userInfo = check
