@@ -37,7 +37,7 @@ const updatePatient = async (req, res) => {
       phone_number,
       insurance_number,
     } = req.body;
-    const user_id = req.params.id;
+    const id = req.params.id;
     const updatedPatient = await Patients.update(
       {
         name,
@@ -49,7 +49,7 @@ const updatePatient = async (req, res) => {
         insurance_number,
         updated_at: sequelize.literal("CURRENT_TIMESTAMP"),
       },
-      { where: { user_id: user_id } }
+      { where: { id: id } }
     );
 
     if (updatedPatient[0] === 0) {
