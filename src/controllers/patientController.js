@@ -14,8 +14,8 @@ const getAllPatient = async (req, res) => {
 // Xem thông tin bệnh nhân
 const getPatientById = async (req, res) => {
   try {
-    const user_id = req.params?.id;
-    const patient = await Patients.findOne({ where: { user_id: user_id } });
+    const id = req.params?.id;
+    const patient = await Patients.findByPk(id);
     if (!patient) {
       return res.status(404).json({ message: "Không tìm thấy bệnh nhân" });
     }
