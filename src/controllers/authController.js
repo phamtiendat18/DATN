@@ -4,6 +4,7 @@ const Users = require("../models/users");
 const Roles = require("../models/roles");
 const Staffs = require("../models/staffs");
 const Patients = require("../models/patients");
+const { where } = require("sequelize");
 Users.belongsTo(Roles, { foreignKey: "role_id" });
 Users.hasOne(Staffs, { foreignKey: "user_id" });
 Users.hasOne(Patients, { foreignKey: "user_id" });
@@ -100,6 +101,43 @@ const login = async (req, res) => {
     res.status(500).json({ error: "Error logging in", err });
   }
 };
+const changePassword = async (req, res) => {
+  try {
+    const { username, old_password, password } = req.body;
+    const id = req.params.id;
+    const userInfo = await Users.findOne({ where: { username: username } });
+
+    if (!userInfo) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const check = await bcrypt.compare(
+      old_password,
+      userInfo?.dataValues?.password
+    );
+
+    if (check) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const [updated] = await Users.update(
+        { password: hashedPassword },
+        { where: { username: username } }
+      );
+
+      console.log(updated);
+
+      if (updated) {
+        res.status(200).json({ message: "Thay đổi mật khẩu thành công" });
+      } else {
+        res.status(400).json({ message: "Thay đổi mật khẩu thất bại" });
+      }
+    } else {
+      res.status(400).json({ message: "Mật khẩu cũ không chính xác" });
+    }
+  } catch (err) {
+    console.error("Error changing password:", err);
+    res.status(500).json({ message: "Error change password", err });
+  }
+};
 
 const logout = async (req, res) => {
   try {
@@ -112,4 +150,4 @@ const logout = async (req, res) => {
   }
 };
 
-module.exports = { register, login, logout };
+module.exports = { register, login, logout, changePassword };
