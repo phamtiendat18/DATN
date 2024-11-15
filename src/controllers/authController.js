@@ -21,7 +21,9 @@ const register = async (req, res) => {
         },
       })) || roleName.toLowerCase() === "admin";
     if (checkUsername) {
-      return res.status(200).json({ message: "Tài khoản đã được sử dụng!" });
+      return res
+        .status(200)
+        .json({ message: "Tài khoản đã được sử dụng!", status: 401 });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const disable = roleName.toLowerCase() === "staffs";
@@ -58,11 +60,14 @@ const login = async (req, res) => {
     const user = await Users.findOne({ where: { username: username } });
 
     if (!user)
-      return res.status(200).json({ message: "Tài khoản không tồn tại" });
-    if (user?.dataValues?.disable)
       return res
         .status(200)
-        .json({ message: "Tài khoản này hiện tại không thể sử dụng" });
+        .json({ message: "Tài khoản không tồn tại", status: 401 });
+    if (user?.dataValues?.disable)
+      return res.status(200).json({
+        message: "Tài khoản này hiện tại không thể sử dụng",
+        status: 401,
+      });
     const role = await Roles.findOne({
       where: { id: user?.dataValues?.role_id },
     });
@@ -88,7 +93,7 @@ const login = async (req, res) => {
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
       return res.status(200).json({
-        error: "Login failed!",
+        status: 401,
         message: "Đăng nhập thất bại",
       });
     }
@@ -108,7 +113,7 @@ const changePassword = async (req, res) => {
     const userInfo = await Users.findOne({ where: { username: username } });
 
     if (!userInfo) {
-      return res.status(200).json({ message: "User not found" });
+      return res.status(200).json({ message: "User not found", status: 401 });
     }
 
     const check = await bcrypt.compare(
@@ -128,10 +133,14 @@ const changePassword = async (req, res) => {
       if (updated) {
         res.status(200).json({ message: "Thay đổi mật khẩu thành công" });
       } else {
-        res.status(200).json({ message: "Thay đổi mật khẩu thất bại" });
+        res
+          .status(200)
+          .json({ message: "Thay đổi mật khẩu thất bại", status: 401 });
       }
     } else {
-      res.status(200).json({ message: "Mật khẩu cũ không chính xác" });
+      res
+        .status(200)
+        .json({ message: "Mật khẩu cũ không chính xác", status: 401 });
     }
   } catch (err) {
     console.error("Error changing password:", err);
