@@ -42,6 +42,7 @@ const updateStaff = async (req, res) => {
       experience,
       about_me,
     } = req.body;
+    const id = req.params.id;
     const updatedStaff = await Staffs.update(
       {
         name,
@@ -55,17 +56,16 @@ const updateStaff = async (req, res) => {
         work_place,
         experience,
         about_me,
-        updated_at: sequelize.literal("CURRENT_TIMESTAMP"),
       },
-      { where: { id: req.params.id } }
+      { where: { id: id } }
     );
 
     if (updatedStaff[0] === 0) {
       return res
-        .status(404)
-        .json({ message: "Không tìm thấy nhân viên để cập nhật" });
+        .status(200)
+        .json({ message: "Không tìm thấy nhân viên để cập nhật", status: 404 });
     }
-    res.json({ message: "Cập nhật thông tin thành công" });
+    res.status(200).json({ message: "Cập nhật thông tin thành công" });
   } catch (error) {
     res.status(500).json({ message: "Lỗi hệ thống", error: error.message });
   }
