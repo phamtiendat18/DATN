@@ -131,7 +131,7 @@ const changePassword = async (req, res) => {
         res.status(400).json({ message: "Thay đổi mật khẩu thất bại" });
       }
     } else {
-      res.status(400).json({ message: "Mật khẩu cũ không chính xác" });
+      res.status(401).json({ message: "Mật khẩu cũ không chính xác" });
     }
   } catch (err) {
     console.error("Error changing password:", err);
