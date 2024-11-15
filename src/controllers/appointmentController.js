@@ -8,7 +8,7 @@ const createAppointment = async (req, res) => {
 
     // Kiểm tra nếu thiếu trường bắt buộc
     if (!patient_id || !scheduled_time || !staff_id || !type_id) {
-      return res.status(400).json({ message: "Thiếu thông tin bắt buộc" });
+      return res.status(200).json({ message: "Thiếu thông tin bắt buộc" });
     }
 
     const newAppointment = await Appointment.create({

@@ -7,7 +7,7 @@ const createRole = async (req, res) => {
   const { name } = req.body;
 
   if (!name) {
-    return res.status(400).json({ error: "Roles name is required" });
+    return res.status(200).json({ error: "Roles name is required" });
   }
 
   try {
@@ -20,13 +20,13 @@ const createRole = async (req, res) => {
 
     if (checkRoleName) {
       return res
-        .status(400)
+        .status(200)
         .json({ message: "Vai trò đã tồn tại", status: 400 });
     }
     const role = await Roles.create({ name });
     return res.status(201).json({ data: role, status: 201 });
   } catch (err) {
-    res.status(400).json({ error: "Error creating role" });
+    res.status(500).json({ error: "Error creating role" });
   }
 };
 
@@ -51,7 +51,7 @@ const updateRole = async (req, res) => {
   const { name } = req.body;
 
   if (!name) {
-    return res.status(400).json({ error: "Roles name is required" });
+    return res.status(200).json({ message: "Roles name is required" });
   }
 
   try {
@@ -69,7 +69,7 @@ const updateRole = async (req, res) => {
     );
     res.status(200).json({ data: newRole, message: "Cập nhật thành công!" });
   } catch (err) {
-    res.status(400).json({ error: "Error updating role" });
+    res.status(500).json({ error: "Error updating role" });
   }
 };
 
