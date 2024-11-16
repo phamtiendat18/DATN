@@ -5,7 +5,7 @@ let io;
 const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "https://datn-u1l6.onrender.com",
+      origin: "http://localhost:5173",
       methods: ["GET", "POST"],
     },
   });
