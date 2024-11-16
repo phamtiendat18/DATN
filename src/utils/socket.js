@@ -3,7 +3,12 @@ const { Server } = require("socket.io");
 let io;
 
 const initSocket = (server) => {
-  io = new Server(server);
+  io = new Server(server, {
+    cors: {
+      origin: "http://localhost:5173",
+      methods: ["GET", "POST"],
+    },
+  });
 
   // Lắng nghe sự kiện kết nối
   io.on("connection", (socket) => {
