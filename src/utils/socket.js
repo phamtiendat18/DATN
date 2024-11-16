@@ -3,7 +3,7 @@ let io;
 const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: "*",
+      origin: "https://datn-u1l6.onrender.com",
       methods: ["GET", "POST"],
     },
   });
