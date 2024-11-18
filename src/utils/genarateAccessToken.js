@@ -1,15 +1,25 @@
 const jwt = require("jsonwebtoken"); // Thư viện để tạo JWT
 require("dotenv").config();
 
-const generateAccessToken = (userId) => {
-  const payload = {
-    iss: process.env.STRINGEE_KEY_SID, // KeySID từ Stringee
-    iat: Math.floor(Date.now() / 1000), // Thời gian hiện tại
-    exp: Math.floor(Date.now() / 1000) + 86400, // Hết hạn sau 1 ngày
-    userId, // ID người dùng
+const apiKeySid = process.env.STRINGEE_SID_KEY;
+const apiKeySecret = process.env.STRINGEE_SECRET_KEY;
+
+const generateAccessToken = () => {
+  var now = Math.floor(Date.now() / 1000);
+  var exp = now + 86400;
+
+  var header = { cty: "stringee-api;v=1" };
+  var payload = {
+    jti: apiKeySid + "-" + now,
+    iss: apiKeySid,
+    exp: exp,
+    rest_api: true,
   };
 
-  const token = jwt.sign(payload, "YOUR_KEY_SECRET"); // KeySecret từ Stringee
+  var token = jwt.sign(payload, apiKeySecret, {
+    algorithm: "HS256",
+    header: header,
+  });
   return token;
 };
 module.exports = { generateAccessToken };
