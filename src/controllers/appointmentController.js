@@ -1,6 +1,5 @@
 const Appointment = require("../models/appointments");
 const Staffs = require("../models/staffs");
-Staffs.belongsTo(Appointment, { foreignKey: "staff_id" });
 Appointment.hasOne(Staffs, { foreignKey: "id" });
 // Tạo mới một cuộc hẹn
 const createAppointment = async (req, res) => {
