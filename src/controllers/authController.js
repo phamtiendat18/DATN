@@ -101,7 +101,7 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    const accessToken = generateAccessToken();
+    const accessToken = generateAccessToken(user.id);
 
     res.status(200).json({ data: userInfo, token, accessToken });
   } catch (err) {

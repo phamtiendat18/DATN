@@ -4,7 +4,7 @@ require("dotenv").config();
 const apiKeySid = process.env.STRINGEE_SID_KEY;
 const apiKeySecret = process.env.STRINGEE_SECRET_KEY;
 
-const generateAccessToken = () => {
+const generateAccessToken = (useId) => {
   var now = Math.floor(Date.now() / 1000);
   var exp = now + 86400;
 
@@ -13,7 +13,7 @@ const generateAccessToken = () => {
     jti: apiKeySid + "-" + now,
     iss: apiKeySid,
     exp: exp,
-    rest_api: true,
+    useId: useId,
   };
 
   var token = jwt.sign(payload, apiKeySecret, {
