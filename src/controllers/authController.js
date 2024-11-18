@@ -5,6 +5,7 @@ const Roles = require("../models/roles");
 const Staffs = require("../models/staffs");
 const Patients = require("../models/patients");
 const { where } = require("sequelize");
+const { generateAccessToken } = require("../utils/genarateAccessToken");
 Users.belongsTo(Roles, { foreignKey: "role_id" });
 Users.hasOne(Staffs, { foreignKey: "user_id" });
 Users.hasOne(Patients, { foreignKey: "user_id" });
@@ -100,8 +101,9 @@ const login = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+    const accessToken = generateAccessToken(user.id);
 
-    res.status(200).json({ data: userInfo, token });
+    res.status(200).json({ data: userInfo, token, accessToken });
   } catch (err) {
     res.status(500).json({ error: "Error logging in", err });
   }
