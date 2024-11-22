@@ -1,4 +1,7 @@
+const MedicalRecords = require("../models/medicalRecords");
 const Staffs = require("../models/staffs");
+
+Staffs.hasMany(MedicalRecords, { foreignKey: "staff_id" });
 
 // Xem thông tin nhân viên
 const getAllStaff = async (req, res) => {

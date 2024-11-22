@@ -30,17 +30,9 @@ const Appointments = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
-    },
   },
   {
-    timestamps: true, // Tự động thêm created_at và updated_at
+    timestamps: true, // Tự động thêm created_at và updated_at,
     underscored: true, // Sử dụng snake_case cho tên cột
   }
 );
