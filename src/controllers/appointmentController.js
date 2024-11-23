@@ -1,7 +1,10 @@
 const Appointment = require("../models/appointments");
 const Patients = require("../models/patients");
 const Staffs = require("../models/staffs");
+const TypeAppointments = require("../models/typeAppointments");
 
+TypeAppointments.hasOne(Appointment, { foreignKey: "type_id" });
+Appointment.belongsTo(TypeAppointments, { foreignKey: "type_id" });
 Appointment.belongsTo(Staffs, { foreignKey: "staff_id" });
 Appointment.belongsTo(Patients, { foreignKey: "patient_id" });
 // Tạo mới một cuộc hẹn
@@ -52,7 +55,13 @@ const getAppointmentByStaffId = async (req, res) => {
 
     const appointment = await Appointment.findAll({
       where: { staff_id: id },
-      include: [{ model: Patients, attributes: ["name", "user_id"] }],
+      include: [
+        { model: Patients, attributes: ["name", "user_id"] },
+        {
+          model: TypeAppointments,
+          attributes: ["name", "id"],
+        },
+      ],
     });
 
     if (!appointment) {
