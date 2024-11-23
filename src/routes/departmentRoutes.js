@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post("/create", createDepartment); // Tạo role mới
 router.get("/", getDepartment); // Lấy danh sách roles
-router.put("/:id", isAdmin, updateRole); // Cập nhật role
+router.put("/:id", isAdmin, updateDepartment); // Cập nhật role
 router.delete("/:id", isAdmin, deleteDepartment); // Xóa role
 
 module.exports = router;
