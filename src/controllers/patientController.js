@@ -1,6 +1,9 @@
+const Appointments = require("../models/appointments");
 const MedicalRecords = require("../models/medicalRecords");
 const Patients = require("../models/patients");
+
 Patients.hasMany(MedicalRecords, { foreignKey: "patient_id" });
+Patients.hasMany(Appointments, { foreignKey: "patient_id" });
 
 const getAllPatient = async (req, res) => {
   try {
