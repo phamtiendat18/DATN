@@ -36,6 +36,9 @@ const getStaffById = async (req, res) => {
 const getAllStaffByDepartmentId = async (req, res) => {
   try {
     const id = req.params.id;
+    if (!id) {
+      res.status(200).json({ message: "Thiếu id khoa" });
+    }
     const data = await Staffs.findAll({ where: { department_id: id } });
     res.status(200).json(data);
   } catch (err) {
