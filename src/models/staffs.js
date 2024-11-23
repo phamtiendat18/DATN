@@ -28,7 +28,7 @@ const Staffs = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    department: {
+    department_id: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -25,9 +25,21 @@ const getStaffById = async (req, res) => {
     if (!staff) {
       return res.status(404).json({ message: "Không tìm thấy nhân viên" });
     }
-    res.json(staff);
+    res.status(200).json(staff);
   } catch (error) {
     res.status(500).json({ message: "Lỗi hệ thống", error: error.message });
+  }
+};
+
+// Lấy danh sách bác sĩ thuộc khoa
+
+const getAllStaffByDepartmentId = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await Staffs.findAll({ where: { department_id: id } });
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Error retrieving roles" });
   }
 };
 
@@ -40,7 +52,7 @@ const updateStaff = async (req, res) => {
       birthday,
       address,
       position,
-      department,
+      department_id,
       phone_number,
       research_work,
       work_place,
@@ -55,7 +67,7 @@ const updateStaff = async (req, res) => {
         birthday,
         address,
         position,
-        department,
+        department_id,
         phone_number,
         research_work,
         work_place,
@@ -80,4 +92,5 @@ module.exports = {
   getStaffById,
   updateStaff,
   getAllStaff,
+  getAllStaffByDepartmentId,
 };
