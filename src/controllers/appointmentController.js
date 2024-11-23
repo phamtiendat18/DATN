@@ -50,7 +50,10 @@ const getAppointmentByStaffId = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const appointment = await Appointment.findAll({ where: { staff_id: id } });
+    const appointment = await Appointment.findAll({
+      where: { staff_id: id },
+      include: [{ model: Patients, attributes: ["name", "user_id"] }],
+    });
 
     if (!appointment) {
       return res.status(404).json({ message: "Không tìm thấy cuộc hẹn" });
