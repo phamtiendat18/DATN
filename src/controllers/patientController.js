@@ -1,3 +1,4 @@
+const sequelize = require("../config/database");
 const Appointments = require("../models/appointments");
 const MedicalRecords = require("../models/medicalRecords");
 const Patients = require("../models/patients");
