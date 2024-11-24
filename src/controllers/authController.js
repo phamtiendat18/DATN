@@ -49,7 +49,9 @@ const register = async (req, res) => {
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.status(201).json({ data, token });
+    res
+      .status(201)
+      .json({ data, token, message: "Đăng ký thành công", status: 201 });
   } catch (err) {
     res.status(500).json({ error: "Error registering user" });
   }
@@ -103,7 +105,15 @@ const login = async (req, res) => {
     });
     const accessToken = generateAccessToken(user.id);
 
-    res.status(200).json({ data: userInfo, token, accessToken });
+    res
+      .status(200)
+      .json({
+        data: userInfo,
+        token,
+        accessToken,
+        message: "Đăng nhập thành công",
+        status: 200,
+      });
   } catch (err) {
     res.status(500).json({ error: "Error logging in", err });
   }
