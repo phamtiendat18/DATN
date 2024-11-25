@@ -30,6 +30,10 @@ const Appointments = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    note: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
+    },
   },
   {
     timestamps: true, // Tự động thêm created_at và updated_at,

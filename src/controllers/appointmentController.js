@@ -10,7 +10,8 @@ Appointment.belongsTo(Patients, { foreignKey: "patient_id" });
 // Tạo mới một cuộc hẹn
 const createAppointment = async (req, res) => {
   try {
-    const { patient_id, scheduled_time, staff_id, status, type_id } = req.body;
+    const { patient_id, scheduled_time, staff_id, status, type_id, note } =
+      req.body;
 
     // Kiểm tra nếu thiếu trường bắt buộc
     if (!patient_id || !scheduled_time || !staff_id || !type_id) {
@@ -23,6 +24,7 @@ const createAppointment = async (req, res) => {
       staff_id,
       status: status,
       type_id,
+      note,
     });
 
     res
