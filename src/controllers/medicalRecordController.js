@@ -96,7 +96,9 @@ exports.createRecord = async (req, res) => {
       disease_history,
       status,
     });
-    res.status(201).json({ data: newRecord, message: "Tạo hồ sơ thành công." });
+    res
+      .status(201)
+      .json({ data: newRecord, message: "Tạo hồ sơ thành công.", status: 201 });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -112,13 +114,11 @@ exports.updateRecord = async (req, res) => {
         .json({ message: "Không tìm thấy hồ sơ", status: 404 });
     }
     await record.update(req.body);
-    res
-      .status(200)
-      .json({
-        data: record,
-        message: "Cập nhật hồ sơ thành công.",
-        status: 200,
-      });
+    res.status(200).json({
+      data: record,
+      message: "Cập nhật hồ sơ thành công.",
+      status: 200,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
