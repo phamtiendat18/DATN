@@ -107,10 +107,18 @@ exports.updateRecord = async (req, res) => {
   try {
     const record = await MedicalRecords.findByPk(req.params.id);
     if (!record) {
-      return res.status(404).json({ message: "Record not found" });
+      return res
+        .status(200)
+        .json({ message: "Không tìm thấy hồ sơ", status: 404 });
     }
     await record.update(req.body);
-    res.status(200).json({ data: record, message: "Tạo hồ sơ thành công." });
+    res
+      .status(200)
+      .json({
+        data: record,
+        message: "Cập nhật hồ sơ thành công.",
+        status: 200,
+      });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
