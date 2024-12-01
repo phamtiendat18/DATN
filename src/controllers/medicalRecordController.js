@@ -66,7 +66,7 @@ exports.getRecordStaffId = async (req, res) => {
 exports.getRecordPatientId = async (req, res) => {
   try {
     const id = req.params.id;
-    const record = await MedicalRecords.findOne({
+    const record = await MedicalRecords.findAll({
       include: [
         {
           model: Staffs,
