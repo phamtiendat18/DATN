@@ -13,7 +13,7 @@ const MedicalRecords = sequelize.define(
       allowNull: false,
     },
     disease_history: {
-      type: DataTypes.STRING(255),
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     status: {
