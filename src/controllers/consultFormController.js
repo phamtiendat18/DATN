@@ -15,6 +15,8 @@ exports.createConsultForm = async (req, res) => {
       code,
       meeting_info,
     });
+    console.log(consultForm);
+
     return res.status(201).json({
       data: consultForm,
       message: "Tạo phiếu tư vấn khám chữa bệnh thành công",
