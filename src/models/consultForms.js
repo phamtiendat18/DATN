@@ -4,7 +4,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const ConsultForm = sequelize.define(
-  "ConsultForm",
+  "consult_forms",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -27,14 +27,6 @@ const ConsultForm = sequelize.define(
     meeting_info: {
       type: DataTypes.TEXT,
       allowNull: false,
-    },
-    created_at: {
-      type: DataTypes.TIMESTAMP,
-      defaultValue: DataTypes.NOW,
-    },
-    updated_at: {
-      type: DataTypes.TIMESTAMP,
-      defaultValue: DataTypes.NOW,
     },
   },
   {
