@@ -6,12 +6,6 @@ const sequelize = require("../config/database");
 const ConsultForm = sequelize.define(
   "consult_forms",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-      unique: true,
-    },
     appointment_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -32,6 +26,7 @@ const ConsultForm = sequelize.define(
   {
     tableName: "consult_forms",
     timestamps: true,
+    underscored: true,
   }
 );
 
