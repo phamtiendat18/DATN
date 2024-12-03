@@ -1,11 +1,15 @@
 // controllers/consultFormController.js
 
-const consultForms = require("../models/consultForms");
+const Appointments = require("../models/appointments");
+const ConsultForm = require("../models/consultForms");
+const Staffs = require("../models/staffs");
 
+ConsultForm.belongsTo(Appointments, { foreignKey: "appointment_id" });
+ConsultForm.belongsTo(Staffs, { foreignKey: "staff_id" });
 exports.createConsultForm = async (req, res) => {
   try {
     const { appointment_id, staff_id, code, meeting_info } = req.body;
-    const consultForm = await consultForms.create({
+    const consultForm = await ConsultForm.create({
       appointment_id,
       staff_id,
       code,
@@ -23,7 +27,7 @@ exports.createConsultForm = async (req, res) => {
 
 exports.getConsultForms = async (req, res) => {
   try {
-    const consultForms = await consultForms.findAll();
+    const consultForms = await ConsultForm.findAll();
     return res.status(200).json(consultForms);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -32,7 +36,7 @@ exports.getConsultForms = async (req, res) => {
 
 exports.getConsultFormById = async (req, res) => {
   try {
-    const consultForm = await consultForms.findByPk(req.params.id);
+    const consultForm = await ConsultForm.findByPk(req.params.id);
     if (!consultForm) {
       return res
         .status(200)
@@ -48,14 +52,14 @@ exports.updateConsultForm = async (req, res) => {
   try {
     const { id } = req.params;
     const { appointment_id, staff_id, code, meeting_info } = req.body;
-    const consultForm = await consultForms.findByPk(id);
+    const consultForm = await ConsultForm.findByPk(id);
     if (!consultForm) {
       return res
         .status(200)
         .json({ message: "Consult form not found", status: 404 });
     }
 
-    await consultForm.update({
+    await ConsultForm.update({
       appointment_id,
       staff_id,
       code,
@@ -73,14 +77,14 @@ exports.updateConsultForm = async (req, res) => {
 exports.deleteConsultForm = async (req, res) => {
   try {
     const { id } = req.params;
-    const consultForm = await consultForms.findByPk(id);
+    const consultForm = await ConsultForm.findByPk(id);
     if (!consultForm) {
       return res
         .status(200)
         .json({ message: "Consult form not found", status: 404 });
     }
 
-    await consultForm.destroy();
+    await ConsultForm.destroy();
     return res
       .status(200)
       .json({ message: "Xóa phiếu tư vấn khám chữa bệnh thành công" });
