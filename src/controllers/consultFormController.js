@@ -8,14 +8,14 @@ ConsultForm.belongsTo(Appointments, { foreignKey: "appointment_id" });
 ConsultForm.belongsTo(Staffs, { foreignKey: "staff_id" });
 exports.createConsultForm = async (req, res) => {
   try {
-    const { appointment_id, staff_id, code, meeting_info } = req.body;
+    const { appointment_id, staff_id, code, meeting_info, type_id } = req.body;
     const consultForm = await ConsultForm.create({
       appointment_id,
       staff_id,
       code,
       meeting_info,
+      type_id,
     });
-    console.log(consultForm);
 
     return res.status(201).json({
       data: consultForm,
@@ -53,7 +53,7 @@ exports.getConsultFormById = async (req, res) => {
 exports.updateConsultForm = async (req, res) => {
   try {
     const { id } = req.params;
-    const { appointment_id, staff_id, code, meeting_info } = req.body;
+    const { appointment_id, staff_id, code, meeting_info, type_id } = req.body;
     const consultForm = await ConsultForm.findByPk(id);
     if (!consultForm) {
       return res
