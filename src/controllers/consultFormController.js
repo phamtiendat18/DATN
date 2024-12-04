@@ -1,5 +1,6 @@
 // controllers/consultFormController.js
 
+const { where } = require("sequelize");
 const Appointments = require("../models/appointments");
 const ConsultForm = require("../models/consultForms");
 const Staffs = require("../models/staffs");
@@ -42,6 +43,22 @@ exports.getConsultForms = async (req, res) => {
 exports.getConsultFormById = async (req, res) => {
   try {
     const consultForm = await ConsultForm.findByPk(req.params.id);
+    if (!consultForm) {
+      return res
+        .status(200)
+        .json({ message: "Consult form not found", status: 404 });
+    }
+    return res.status(200).json({ data: consultForm, status: 200 });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+exports.getConsultFormByPatientId = async (req, res) => {
+  try {
+    const id = req.params?.id;
+    const consultForm = await ConsultForm.findAll({
+      where: { patient_id: id },
+    });
     if (!consultForm) {
       return res
         .status(200)
