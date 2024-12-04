@@ -3,7 +3,10 @@
 const Appointments = require("../models/appointments");
 const ConsultForm = require("../models/consultForms");
 const Staffs = require("../models/staffs");
+const TypeForms = require("../models/typeForms");
 
+TypeForms.hasOne(ConsultForm, { foreignKey: "type_id" });
+ConsultForm.belongsTo(TypeForms, { foreignKey: "type_id" });
 ConsultForm.belongsTo(Appointments, { foreignKey: "appointment_id" });
 ConsultForm.belongsTo(Staffs, { foreignKey: "staff_id" });
 exports.createConsultForm = async (req, res) => {
