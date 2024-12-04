@@ -58,6 +58,7 @@ exports.getConsultFormByPatientId = async (req, res) => {
     const id = req.params?.id;
     const consultForm = await ConsultForm.findAll({
       where: { patient_id: id },
+      include: [{ model: TypeForms, attributes: ["name"] }],
     });
     if (!consultForm) {
       return res
