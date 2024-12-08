@@ -69,7 +69,7 @@ module.exports = {
       const newRequestForm = await MeetingRecord.create({
         staff_id, medical_record_id, request_form_id, meeting_info, type_id
       });
-      res.status(201).json(newRequestForm);
+      res.status(201).json({data: newRequestForm, status: 201, message: "Tạo biên bản hội chẩn thành công"});
     } catch (error) {
       res.status(500).json({ error: 'Failed to create request form', details: error });
     }
