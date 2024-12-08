@@ -70,6 +70,23 @@ exports.getConsultFormByPatientId = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+exports.getConsultFormByStaffId = async (req, res) => {
+  try {
+    const id = req.params?.id;
+    const consultForm = await ConsultForm.findAll({
+      where: { staff_id: id },
+      include: [{ model: TypeForms, attributes: ["name"] }],
+    });
+    if (!consultForm) {
+      return res
+        .status(200)
+        .json({ message: "Consult form not found", status: 404 });
+    }
+    return res.status(200).json({ data: consultForm, status: 200 });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
 exports.updateConsultForm = async (req, res) => {
   try {
