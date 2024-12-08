@@ -3,19 +3,19 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
-const ConsultForm = sequelize.define(
-  "consult_forms",
+const MeetingRecord = sequelize.define(
+  "meeting_records",
   {
-    appointment_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
     staff_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    code: {
-      type: DataTypes.STRING(50),
+    medical_record_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    request_form_id: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     meeting_info: {
@@ -23,15 +23,15 @@ const ConsultForm = sequelize.define(
       allowNull: false,
     },
     type_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
   },
   {
-    tableName: "consult_forms",
+    tableName: "meeting_records",
     timestamps: true,
     underscored: true,
   }
 );
 
-module.exports = ConsultForm;
+module.exports = MeetingRecord;
