@@ -15,6 +15,7 @@ const callHistoryRoutes = require("./src/routes/callHistoryRoutes");
 const medicalRecordRoutes = require("./src/routes/medicalRecordRoutes");
 const consultFormRoutes = require("./src/routes/consultFormRoutes");
 const requestFomRoutes = require("./src/routes/requestFormRoutes");
+const meetingRecordRoutes = require("./src/routes/meetingRecordRoutes");
 const createAdmin = require("./src/utils/createAdmin");
 dotenv.config();
 
@@ -38,6 +39,7 @@ app.use("/call-history", callHistoryRoutes);
 app.use("/medical-record", medicalRecordRoutes);
 app.use("/consult-form", consultFormRoutes);
 app.use("/request-form", requestFomRoutes);
+app.use("/meeting-record", meetingRecordRoutes);
 app.get("/", (req, res) => {
   return res.send("<h1>Hello world !!!</h1>");
 });
