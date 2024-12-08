@@ -52,7 +52,7 @@ module.exports = {
       if (!requestForm) {
         return res.status(404).json({ error: 'Request form not found' });
       }
-      res.status(200).json(requestForm);
+      res.status(200).json({data: requestForm, status: 200, message: "get success"});
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch request form', details: error });
     }
