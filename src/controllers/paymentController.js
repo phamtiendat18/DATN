@@ -1,10 +1,16 @@
 const Payment = require("../models/payments");
+const Staffs = require("../models/staffs")
 
-
+Payment.belongsTo(Staffs, { foreignKey: "staff_id" });
 // Lấy danh sách tất cả các bản ghi thanh toán
 const getAllPayments = async (req, res) => {
   try {
-    const payments = await Payment.findAll();
+    const payments = await Payment.findAll({include: [
+      {
+        model: Staffs,
+        attributes: ["name", "user_id"],
+      },
+    ],order: [['id', 'DESC']]});
     res.status(200).json(payments);
   } catch (error) {
     console.error(error);
