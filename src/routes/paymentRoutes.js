@@ -5,6 +5,8 @@ const paymentController = require('../controllers/paymentController');
 // Lấy danh sách thanh toán
 router.get('/', paymentController.getAllPayments);
 
+router.get('/checking/:id', paymentController.checkingPayment);
+
 router.get('/patient/:id', paymentController.getAllPaymentsByPatient);
 
 // Thêm thanh toán mới

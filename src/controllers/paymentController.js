@@ -26,7 +26,9 @@ const checkingPayment = async (req, res) => {
   try {
     const { id } = req.params;
     const payments = await Payment.findAll({where: {patient_id: id, status: false}});
-    res.status(200).json(payments);
+    if (payments.length) {
+        res.status(200).json({status: false, message: "Bạn có hóa đơn chưa thanh toán!"});
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Lỗi khi lấy danh sách thanh toán' });
@@ -85,4 +87,5 @@ module.exports = {
   createPayment,
   updatePayment,
   deletePayment,
+  checkingPayment
 };
