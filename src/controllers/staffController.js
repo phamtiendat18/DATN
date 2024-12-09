@@ -8,7 +8,7 @@ Staffs.hasMany(Appointments, { foreignKey: "staff_id" });
 // Xem thông tin nhân viên
 const getAllStaff = async (req, res) => {
   try {
-    const staff = await Staffs.findAll();
+    const staff = await Staffs.findAll({ order: [['id', 'DESC']] });
     if (!staff) {
       return res.status(404).json({ message: "Không tìm thấy nhân viên" });
     }
@@ -39,7 +39,7 @@ const getAllStaffByDepartmentId = async (req, res) => {
     if (!id) {
       res.status(200).json({ message: "Thiếu id khoa" });
     }
-    const data = await Staffs.findAll({ where: { department_id: id } });
+    const data = await Staffs.findAll({ where: { department_id: id }, order: [['id', 'DESC']] });
     res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: "Error retrieving roles" });

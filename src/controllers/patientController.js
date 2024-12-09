@@ -8,7 +8,7 @@ Patients.hasMany(Appointments, { foreignKey: "patient_id" });
 
 const getAllPatient = async (req, res) => {
   try {
-    const patient = await Patients.findAll();
+    const patient = await Patients.findAll({order: [['id', 'DESC']]});
     if (!patient) {
       return res.status(404).json({ message: "Không tìm thấy bệnh nhân" });
     }

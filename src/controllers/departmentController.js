@@ -33,7 +33,7 @@ const createDepartment = async (req, res) => {
 // Lấy danh sách roles
 const getDepartment = async (req, res) => {
   try {
-    const roles = await Departments.findAll();
+    const roles = await Departments.findAll({order: [['id', 'DESC']]});
 
     res.status(200).json({ data: roles, status: 200 });
   } catch (err) {

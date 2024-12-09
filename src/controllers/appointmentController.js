@@ -40,7 +40,7 @@ const createAppointment = async (req, res) => {
 // Lấy danh sách tất cả các cuộc hẹn
 const getAllAppointments = async (req, res) => {
   try {
-    const appointments = await Appointment.findAll();
+    const appointments = await Appointment.findAll({order: [['id', 'DESC']]});
     res.json({ data: appointments });
   } catch (error) {
     res.status(500).json({
@@ -64,6 +64,7 @@ const getAppointmentByStaffId = async (req, res) => {
           attributes: ["name", "id"],
         },
       ],
+      order: [['id', 'DESC']]
     });
 
     if (!appointment) {
@@ -89,6 +90,7 @@ const getAppointmentByIdPatientId = async (req, res) => {
           attributes: ["name", "user_id"],
         },
       ],
+      order: [['id', 'DESC']]
     });
 
     if (!appointment) {

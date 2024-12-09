@@ -25,6 +25,7 @@ const getAllUser = async (req, res) => {
       where: {
         username: { [Op.ne]: "admin" },
       },
+      order: [['id', 'DESC']]
     });
     res.status(200).json(data);
   } catch (error) {

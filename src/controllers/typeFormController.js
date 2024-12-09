@@ -18,7 +18,7 @@ const createTypeForm = async (req, res) => {
 // Lấy danh sách tất cả các loại form
 const getAllTypeForms = async (req, res) => {
   try {
-    const types = await TypeForms.findAll();
+    const types = await TypeForms.findAll({order: [['id', 'DESC']]});
     res.json({ data: types });
   } catch (error) {
     res.status(500).json({

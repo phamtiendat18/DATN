@@ -7,7 +7,7 @@ MedicalRecords.belongsTo(Patients, { foreignKey: "patient_id" });
 // Lấy tất cả các hồ sơ bệnh
 exports.getAllRecords = async (req, res) => {
   try {
-    const records = await MedicalRecords.findAll();
+    const records = await MedicalRecords.findAll({order: [['id', 'DESC']]});
     res.status(200).json({ data: records, message: "Lấy hồ sơ thành công." });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -52,6 +52,7 @@ exports.getRecordStaffId = async (req, res) => {
           model: Patients,
         },
       ],
+      order: [['id', 'DESC']]
     });
     if (!record) {
       return res.status(200).json({ message: "Record not found", status: 404 });
@@ -76,6 +77,7 @@ exports.getRecordPatientId = async (req, res) => {
           where: { id: id },
         },
       ],
+      order: [['id', 'DESC']]
     });
     if (!record) {
       return res.status(200).json({ message: "Record not found", status: 404 });

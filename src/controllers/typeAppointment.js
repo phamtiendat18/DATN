@@ -18,7 +18,7 @@ const createTypeAppointment = async (req, res) => {
 // Lấy danh sách tất cả các loại cuộc hẹn
 const getAllTypeAppointments = async (req, res) => {
   try {
-    const types = await TypeAppointments.findAll();
+    const types = await TypeAppointments.findAll({order: [['id', 'DESC']]});
     res.json({ data: types });
   } catch (error) {
     res.status(500).json({

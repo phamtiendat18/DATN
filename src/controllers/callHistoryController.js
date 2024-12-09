@@ -69,6 +69,7 @@ const getAllCallHistoryByUserId = async (req, res) => {
           where: { user_id: userId },
         },
       ],
+      order: [['id', 'DESC']]
     });
 
     if (!call) {

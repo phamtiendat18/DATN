@@ -14,7 +14,7 @@ module.exports = {
   // Get all request forms
   async getAllForm(req, res) {
     try {
-      const requestForms = await MeetingRecord.findAll();
+      const requestForms = await MeetingRecord.findAll({order: [['id', 'DESC']]});
       res.status(200).json({data: requestForms, status: 200});
     } catch (error) {
       res.status(500).json({ error: 'Failed to fetch request forms', details: error });
@@ -39,7 +39,7 @@ module.exports = {
   async getFormByPatientId(req, res) {
     try {
       const { id } = req.params;
-      const requestForm = await MeetingRecord.findAll({where: {patient_id: id}});
+      const requestForm = await MeetingRecord.findAll({where: {patient_id: id}, order: [['id', 'DESC']]});
       if (!requestForm) {
         return res.status(404).json({ error: 'Request form not found' });
       }
@@ -52,7 +52,7 @@ module.exports = {
   async getFormByStaffId(req, res) {
     try {
       const { id } = req.params;
-      const requestForm = await MeetingRecord.findAll({where: {staff_id: id}});
+      const requestForm = await MeetingRecord.findAll({where: {staff_id: id}, order: [['id', 'DESC']]});
       if (!requestForm) {
         return res.status(404).json({ error: 'Request form not found' });
       }

@@ -37,6 +37,7 @@ const getRoles = async (req, res) => {
       where: {
         name: { [Op.ne]: "Admin" },
       },
+      order: [['id', 'DESC']]
     });
 
     res.status(200).json({ data: roles, status: 200 });

@@ -33,7 +33,7 @@ exports.createConsultForm = async (req, res) => {
 
 exports.getConsultForms = async (req, res) => {
   try {
-    const consultForms = await ConsultForm.findAll();
+    const consultForms = await ConsultForm.findAll({order: [['id', 'DESC']]});
     return res.status(200).json(consultForms);
   } catch (error) {
     return res.status(500).json({ error: error.message });
@@ -59,6 +59,7 @@ exports.getConsultFormByPatientId = async (req, res) => {
     const consultForm = await ConsultForm.findAll({
       where: { patient_id: id },
       include: [{ model: TypeForms, attributes: ["name"] }],
+      order: [['id', 'DESC']]
     });
     if (!consultForm) {
       return res
@@ -76,6 +77,7 @@ exports.getConsultFormByStaffId = async (req, res) => {
     const consultForm = await ConsultForm.findAll({
       where: { staff_id: id },
       include: [{ model: TypeForms, attributes: ["name"] }],
+      order: [['id', 'DESC']]
     });
     if (!consultForm) {
       return res
