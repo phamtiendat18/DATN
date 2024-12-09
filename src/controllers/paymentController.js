@@ -2,6 +2,7 @@ const Payment = require("../models/payments");
 const Staffs = require("../models/staffs")
 
 Payment.belongsTo(Staffs, { foreignKey: "staff_id" });
+Staffs.hasMany(Payment, { foreignKey: 'staff_id' });
 // Lấy danh sách tất cả các bản ghi thanh toán
 const getAllPayments = async (req, res) => {
   try {
@@ -24,7 +25,7 @@ const getAllPaymentsByPatient = async (req, res) => {
       },
     ],
     order: [['id', 'DESC']]});
-    res.status(200).json(payments);
+    res.status(200).json({data: payments, status: 200});
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Lỗi khi lấy danh sách thanh toán' });
