@@ -51,7 +51,7 @@ const createPayment = async (req, res) => {
     res.status(201).json(newPayment);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Lỗi khi tạo thanh toán mới' });
+    res.status(500).json({ message: 'Lỗi khi tạo thanh toán mới', error });
   }
 };
 
